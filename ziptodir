@@ -1,0 +1,19 @@
+#!/bin/sh
+in=$@
+out=`echo $in | cut -d'/' -f3| awk -F'-' '{print $1,$2}'|sed 's,   ,/,g'|sed s/.zip//`
+echo $in
+echo $out
+#echo $in | cut -d'/' -f3
+#echo $in | cut -d'/' -f3| awk -F'-' '{print $1,$2}'
+#echo $in | cut -d'/' -f3| awk -F'-' '{print $1,$2}'|sed 's,   ,/,g'
+#echo $in | cut -d'/' -f3| awk -F'-' '{print $1,$2}'|sed 's,   ,/,g'|sed s/.zip//
+mkdir -v -p "$(echo $out)"
+echo directory made
+7z x "$(echo $in)" # -o "$(echo $out)"
+ls |grep -v .zip
+mv -v *.mp3 *.png *.jpg "$(echo $out)"
+# should move to the appropriate dir here
+# then make a playlist with something like
+#  ls -d ../B/Blusa/¡Toca\ breakbeat/* | egrep 'mp3$'>> new_from_bandcamp.m3u
+# move the zip file to the archive
+mv -v "$(echo $in)" ../archives/.
